@@ -90,6 +90,19 @@ export const getUserRole = async (req, res) => {
   }
 };
 
+export const getUserEmail = async (req, res) => {
+  try {
+    const userId = req;
+    // Verifico si el usuario existe en la base de datos
+    const user = await UserModel.findById(userId);
+    const userEmail = user.email;
+    return userEmail;
+  } catch (error) {
+    console.log(error.message);
+    //res.json({ status: "error", message: "Error trying to change user role" });
+  }
+};
+
 export const uploadFile = async (req, res) => {
   try {
     const userId = req.params.uid;

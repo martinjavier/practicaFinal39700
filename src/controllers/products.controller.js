@@ -10,12 +10,13 @@ import {
   deleteProduct,
   getPaginateProducts,
 } from "../services/product.service.js";
-import { getUserRole } from "../services/user.service.js";
+import { getUserRole, getUserEmail } from "../services/user.service.js";
 import { CustomError } from "../services/customError.service.js";
 import { EError } from "../enums/EError.js";
 import { generateProductErrorParam } from "../services/productErrorParams.js";
 import { options } from "../config/options.js";
 import { ProductManager } from "../dao/factory.js";
+import { sendDeleteAlert } from "../utils/email.js";
 
 export const getProductsController = async (req, res) => {
   try {
@@ -105,12 +106,12 @@ export const deleteProductController = async (req, res) => {
   const userId = info._id;
   const userRole = info.role;
   // Obtengo el producto
-  //const product = ProductManager.getProductById(productId);
   const product = await getProductById(productId);
   // Obtengo el ID del product owner de este producto
   const productOwnerId = product.owner;
   // Con dicho ID busco el Role de ese usuario
   const productOwnerRole = await getUserRole(productOwnerId);
+  const productOwnerEMail = await getUserEmail(productOwnerId);
   let result = null;
   // Verifico
   // 1. Que los productos que pertenecen a un usuario premium sólo puedan ser borrados por dicho usuario o un admin.
@@ -120,6 +121,10 @@ export const deleteProductController = async (req, res) => {
     productOwnerRole == "premium" &&
     (productOwnerId == userId || userRole == "admin")
   ) {
+    // Enviar un email avisando que se ha borrado su producto
+    console.log("EMAIL: " + productOwnerEMail);
+    console.log("PRODUCT ID: " + productId);
+    await sendDeleteAlert(productOwnerEMail, productId);
     result = deleteProduct(productId);
   } else if (productOwnerRole == "user") {
     result = deleteProduct(productId);

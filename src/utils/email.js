@@ -39,3 +39,18 @@ export const sendRecoveryPass = async (userEmail, token) => {
         `,
   });
 };
+
+export const sendDeleteAlert = async (userEmail, productId) => {
+  // estructura del correo
+  await transporter.sendMail({
+    from: options.gmail.emailAdmin,
+    to: userEmail,
+    subject: "Your product was deleted",
+    html: `
+          <div>
+            <h2>ALERT</h2>
+            <p>Your product with id ${productId} was deleted</p>
+          </div>
+        `,
+  });
+};

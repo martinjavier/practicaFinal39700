@@ -24,7 +24,6 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true,
-    select: false,
   },
   cart: {
     type: mongoose.Schema.Types.ObjectId,
@@ -48,7 +47,6 @@ const userSchema = new mongoose.Schema({
   last_connection: {
     type: Date,
     default: null,
-    expires: 2880,
   },
   status: {
     type: String,

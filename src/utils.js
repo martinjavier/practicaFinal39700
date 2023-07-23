@@ -50,6 +50,7 @@ export const generateProduct = () => {
     stock: parseInt(faker.string.numeric(2)),
     status: "true",
     category: "Tecnología",
+    owner: "64bdb2b262320e2a33c06498",
   };
 };
 

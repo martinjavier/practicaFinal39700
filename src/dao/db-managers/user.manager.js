@@ -15,7 +15,7 @@ class UserManager {
 
   async getUsers() {
     try {
-      const users = await this.model.find();
+      const users = await this.model.find().select("-password").exec();
       const response = JSON.parse(JSON.stringify(users));
       return response;
     } catch (error) {

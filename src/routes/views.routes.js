@@ -1,9 +1,7 @@
 import jwt from "jsonwebtoken";
 import { Router } from "express";
-import { CartManager } from "../dao/factory.js";
-import { ProductManager } from "../dao/factory.js";
+import { CartManager, ProductManager, UserManager } from "../dao/factory.js";
 import { MessageManager, MessageModel } from "../dao/factory.js";
-import { UserManager } from "../dao/factory.js";
 import passport from "passport";
 import alert from "alert";
 import { isUserAuthenticate } from "../middlewares/validations.js";
@@ -36,6 +34,30 @@ viewsRouter.get("/reset-password", (req, res) => {
   const token = req.query.token;
   res.render("resetPassword", { token });
 });
+
+viewsRouter.get(
+  "/users",
+  passport.authenticate("authJWT", { session: false }),
+  async (req, res) => {
+    let token = req.cookies[options.server.cookieToken];
+    const userData = jwt.verify(token, options.server.secretToken);
+    const allUsers = await UserManager.getUsers();
+
+    var data = { users: [...allUsers] };
+
+    try {
+      if (req.user && req.user.role === "admin") {
+        res.render("users", data);
+      } else {
+        alert("User must be authorized and should be Admin");
+        res.redirect("/login");
+      }
+    } catch (error) {
+      alert("Must be authenticated");
+      res.redirect("/login");
+    }
+  }
+);
 
 viewsRouter.get(
   "/current",

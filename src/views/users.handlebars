@@ -1,0 +1,26 @@
+<div style="background:blueviolet;color:white;padding:10px">Welcome
+  {{email}}</div>
+<h2>User List</h2>
+
+{{#each users}}
+  <ul>
+    <li>Email
+      {{this.email}}
+      Role
+      {{this.role}}
+      <a href="/api/users/{{this._id}}" data-method="delete">Delete User</a>
+      <a href="/api/users/premium/{{this.id}}" data-method="put">Change User
+        Role</a>
+    </li>
+  </ul>
+{{/each}}
+
+<a href="/api/sessions/logout">Close Session</a>
+
+<script
+  src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"
+></script>
+<script>
+  $("a[data-method='delete']").click(function(){ $.ajax({ url:
+  this.getAttribute('href'), type: 'DELETE' }) return false })
+</script>

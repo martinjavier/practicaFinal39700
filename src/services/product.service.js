@@ -43,6 +43,7 @@ export const getMockingProducts = () => {
     for (let i = 0; i < cant; i++) {
       const product = generateProduct();
       products.push(product);
+      ProductManager.addProduct(product);
     }
     return products;
   } catch (error) {
