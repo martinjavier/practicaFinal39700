@@ -100,14 +100,18 @@ export const purchaseCartController = async (req, res) => {
     let amount = 0;
 
     for (let i = 0; i < totalProductsInCart; i++) {
-      const IDProd = cart.products[i]._id;
+      const IDProd = cart.products[i].id;
       const QuantityProd = cart.products[i].quantity;
 
+      console.log("PRODUCTOS: " + cart.products);
       console.log("Cart Product " + i + " ID: " + IDProd);
       console.log("Cart Product " + i + " Quantity: " + QuantityProd);
 
-      const prod = await getProductById(IDProd);
+      const prod = await getProductById(cart.products[i].id);
+      //const prod = await getProductById("a7dc1f0adffae0fbf1ca1dbf");
 
+      console.log("PRODUCTO: " + prod);
+      console.log("IdProd: " + IDProd);
       console.log("Product " + i + " Stock: " + prod.stock);
       console.log("Product " + i + " Price: " + prod.price);
 
@@ -128,7 +132,9 @@ export const purchaseCartController = async (req, res) => {
 
     const datetime = new Date();
 
-    const codeTicket = uuid_v4();
+    const codeTicket = await uuid_v4();
+
+    console.log("codeTicket: " + codeTicket);
 
     const newTicket = {
       code: codeTicket,
