@@ -8,13 +8,6 @@
       {{this.email}}
       Role
       {{this.role}}
-      ID
-      {{this.id}}
-      _ID
-      {{this._id}}
-      <button></button>
-      <a href="/api/users/{{this._id}}">Delete User</a>
-      <a href="/api/users/premium/{{this.id}}">Change User Role</a>
       <button onclick="deleteOneUser(`{{this._id}}`)">Delete User</button>
       <button onclick="changeRole(`{{this._id}}`)">Change User Role</button>
     </li>
