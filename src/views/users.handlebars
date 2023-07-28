@@ -8,19 +8,19 @@
       {{this.email}}
       Role
       {{this.role}}
-      <a href="/api/users/{{this._id}}" data-method="delete">Delete User</a>
-      <a href="/api/users/premium/{{this.id}}" data-method="put">Change User
-        Role</a>
+      ID
+      {{this.id}}
+      _ID
+      {{this._id}}
+      <button></button>
+      <a href="/api/users/{{this._id}}">Delete User</a>
+      <a href="/api/users/premium/{{this.id}}">Change User Role</a>
+      <button onclick="deleteOneUser(`{{this._id}}`)">Delete User</button>
+      <button onclick="changeRole(`{{this._id}}`)">Change User Role</button>
     </li>
   </ul>
 {{/each}}
 
 <a href="/api/sessions/logout">Close Session</a>
 
-<script
-  src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"
-></script>
-<script>
-  $("a[data-method='delete']").click(function(){ $.ajax({ url:
-  this.getAttribute('href'), type: 'DELETE' }) return false })
-</script>
+<script src="./js/users.js"></script>>
